@@ -1,4 +1,3 @@
-use_git_config(user.name = 'helenahxj', user.email = 'helenahu2019@163.com')
 # Question 1
 # For supervised learning, each predictor has an assoicated reponse,
 # and it can accurately predict future response based on predictor.
