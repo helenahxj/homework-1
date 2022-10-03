@@ -1,0 +1,85 @@
+---
+title: "PSTAT 131 - Homework 1"
+author: "Helena Hu"
+date: "2022-10-02"
+output: html_document
+---
+
+## Question 1
+For supervised learning, each predictor has an associated response, and it can accurately predict future response based on predictor, while unsupervised learning does not have associated response for predictor.
+
+## Question 2
+Regression model involves quantitative response, while classification model involves qualitative (or categorical) response.
+In context of machine learning, regression model predicts the continuous value, or the trend of something, such as price and grade, but classification model predict discrete value and helping making decision between several categories, such as yes or no.
+
+## Question 3
+1. Regression ML: Mean Square Error and Mean Absolute Error
+2. Classification ML: Error Rate and Accuracy
+
+## Question 4
+1. Descriptive model best visually emphasize trend in data (from lecture)
+2. Inferential models test theories and state relationship between outcome and predictors (from lecture)
+3. Predictive models predict Y with minimum reducible error and not focused on hypothesis tests (from lecture)
+
+## Question 5
+* According to the textbook, mechanistic model "makes assumption about the functional form", while empirically-driven model does not. Empirically-driven model estimate f as accurate as possible. 
+* In general, empirically-driven model is easier to understand since we don't need to make assumptions. For mechanistic model, there might be problems that the model we choose does not match the true form of f, and if we choose more flexible and complex model to address the problem, it may lead to another issue which is overfitting. Empirically-driven model has some disadvantages as well; it required large amount of observations, which is much more compared to mechanistic model, but empirically-driven model is more flexible than mechanistic model.  
+* In terms of bias-variance tradeoff, empirically-driven model has higher flexibility and requires more observations, which means it has low bias and high variance, while mechanistic model is the opposite. 
+
+## Question 6
+1. This question is predictive, since it focuses on predicting the likelihood of voting instead of a relationship between anything.
+2. This question is inferential, since it focuses on the relationship between having personal contact of candidate and support that candidate.
+
+# Exercise
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+library(ggplot2)
+```
+
+## Exercise 1
+```{r}
+ggplot(data = mpg, mapping = aes(x = hwy)) + geom_histogram(binwidth = 1)
+```
+
+The histogram shows the frequency of the data. From the plot we can see that it's bimodal shaped since it has two peaks; one peak at approximately 17 mpg and another at around 26 mpg.
+
+## Exercise 2
+```{r}
+ggplot(mpg, aes(x = hwy, y = cty)) + geom_point()
+```
+
+The scatterplot shown means that there's a linear relationship between variable `hwy` and `cty`.
+
+## Exercise 3
+```{r}
+mpg_manu <- count(mpg, manufacturer)
+ggplot(mpg_manu, aes(n, reorder(manufacturer,n))) + geom_bar(stat = 'identity')
+```
+
+Dodge produced the most cars; Lincoln produced the least cars.
+
+## Exercise 4
+```{r}
+ggplot(mpg, aes(x = as.factor(cyl), y = hwy)) + geom_boxplot()
+```
+
+From the boxplot we can see that the cars with 4 cylinders have highest highway mileage, and the cars with 8 cylinders have the lowest highway mileage. The cars with 5 cylinders has least variance in highway mileage.
+
+## Exercise 5
+```{r}
+library(corrplot)
+
+mpg_numeric <- mpg %>%
+  select_if(is.numeric)
+mpg_cor <- cor(mpg_numeric)
+corrplot(mpg_cor, type = 'lower')
+```
+
+`year` is slightly positively correlated to `displ` and `cyl`.  
+`hwy` and `cty`, `displ` and `cyl` are both strongly positive correlated. `hwy` and `cty` both represent the fuel efficiency, so it's not surprising that they are positive correlated.  
+`hwy` and `cty` both have strong negative correlation with `cyl` and `displ`. It's also not surprising since more cylinders means less efficiency of fuel, which leads to both lower miles per gallon on highway and city road.
+
+
+
